@@ -1,0 +1,578 @@
+/* ------------------------------------------------------------------
+   YouTube — consolidated additions layered on top of the design
+   system (task5 styles.css) and YouTube watch styles (task6 index.css).
+   Imported last so these rules win when they overlap.
+------------------------------------------------------------------- */
+
+/* ---------------- Home page ---------------- */
+.home-page {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 26px 28px 72px;
+}
+
+.home-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.home-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+}
+
+.home-call-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-2);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.home-call-cta:hover {
+  background: var(--surface-3);
+  border-color: var(--accent);
+}
+
+.home-error {
+  margin: 0;
+  padding: 16px 18px;
+  border-radius: 12px;
+  background: var(--danger-bg);
+  color: var(--danger);
+  font-size: 13.5px;
+  border: 1px solid var(--danger);
+}
+
+/* Video thumbnails */
+.video-thumb img,
+.sidebar-thumb img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.video-thumb img {
+  transition: transform 0.25s ease;
+}
+
+.video-card:hover .video-thumb img {
+  transform: scale(1.04);
+}
+
+.thumb-fallback {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* Video card skeletons */
+.video-card-skeleton .skeleton {
+  width: 100%;
+  height: 100%;
+  border-radius: 13px;
+}
+
+.video-card-skeleton .skeleton-line {
+  height: 12px;
+  width: 70%;
+  border-radius: 6px;
+}
+
+.video-card-skeleton .skeleton-line.short {
+  width: 45%;
+}
+
+.video-card-skeleton .skeleton-line.medium {
+  width: 85%;
+}
+
+/* ---------------- Video player ---------------- */
+.youtube-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #000;
+  object-fit: contain;
+}
+
+.video-unavailable {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  min-height: 280px;
+  background: #000;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.video-frame-loading {
+  position: absolute;
+  inset: 0;
+}
+
+.player-spinner {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 4px solid var(--surface-3);
+  border-top-color: var(--accent);
+  animation: streamtube-spin 0.9s linear infinite;
+}
+
+.video-frame-loading p {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+@keyframes streamtube-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------------- Watch page extras ---------------- */
+.watch-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 260px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.channel-skeleton {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--surface-2);
+}
+
+.channel-skeleton + .channel-skeleton {
+  margin-left: -12px;
+}
+
+@media (max-width: 640px) {
+  .home-page {
+    padding: 18px 16px 56px;
+  }
+
+  .watch-page {
+    padding: 0 0 60px;
+  }
+}
+
+/* ------------------------------------------------------------------
+   YouTube — real-time video call UI
+------------------------------------------------------------------- */
+
+.call-page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 20px 24px 40px;
+}
+
+.call-stage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 18px;
+}
+
+.call-video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.call-tile {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--border-soft);
+}
+
+.call-tile.speaking {
+  border: 2px solid var(--accent);
+}
+
+.call-tile.disconnected {
+  opacity: 0.55;
+}
+
+.call-tile-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.call-tile-avatar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 44px;
+  font-weight: 700;
+  color: var(--text);
+  background: linear-gradient(135deg, var(--surface-2), var(--surface));
+}
+
+.call-tile-overlay {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.call-tile-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+.call-tile-badges {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+}
+
+.call-side {
+  min-width: 0;
+}
+
+.call-chat,
+.call-participants-panel {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 14px;
+  max-height: 420px;
+  overflow: auto;
+}
+
+.call-chat-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.call-chat-close {
+  background: none;
+  border: 0;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.call-chat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 280px;
+  overflow: auto;
+}
+
+.call-chat-empty {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.call-chat-item {
+  background: var(--surface-2);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+.call-chat-meta {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.call-chat-text {
+  margin: 4px 0 0;
+  font-size: 13px;
+}
+
+.call-chat-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+.call-chat-emoji-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.call-chat-emoji {
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.call-chat-input-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.call-chat-input {
+  flex: 1;
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 9px 10px;
+}
+
+.call-chat-send,
+.call-chat-file-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 0 10px;
+  cursor: pointer;
+}
+
+.call-participants-panel strong {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.call-participants-panel ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.call-participants-panel li {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.call-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 16px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.call-invite-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.call-invite-note {
+  margin: 14px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+  line-height: 1.5;
+}
+
+.call-invite-note strong {
+  color: var(--text);
+}
+
+.call-host-badge,
+.call-lock-badge {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.call-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+}
+
+.call-control {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-2);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.call-control:hover {
+  background: var(--hover);
+}
+
+.call-control.off {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.call-control.active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.call-control.danger {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: #fff;
+}
+
+.call-error {
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+}
+
+.call-error h2 {
+  margin: 0 0 10px;
+}
+
+.call-error p {
+  color: var(--muted);
+}
+
+.call-primary-btn {
+  margin-top: 16px;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  border-radius: 20px;
+  padding: 10px 18px;
+  cursor: pointer;
+}
+
+@media (max-width: 900px) {
+  .call-stage {
+    grid-template-columns: 1fr;
+  }
+}
+
+.call-controls-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.call-host-panel {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 12px;
+}
+
+.call-host-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  margin-bottom: 10px;
+}
+
+.call-host-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.call-host-btn {
+  background: var(--surface-2);
+  border: 1px solid var(--border-soft);
+  color: var(--text);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.call-host-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+}
+
+.call-host-row-actions {
+  display: inline-flex;
+  gap: 6px;
+}
